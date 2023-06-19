@@ -1,8 +1,8 @@
-
+require('dotenv').config() //Este siempre debe ir primero para cargar la imagen
 const app = require('./server.js') //exportmaos de nuestro server
 
 const connection = require('./database.js') //exportamos nuestra BD
-require('dotenv').config()
+
 
 connection() //Llamamos a nuestra funcion
 
