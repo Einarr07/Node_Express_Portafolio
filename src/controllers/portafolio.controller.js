@@ -52,15 +52,20 @@ const renderEditPortafolioForm = async(req,res)=>{
 }
 const updatePortafolio = async(req,res)=>{
     // Verificar el ID del portafolio sea el mismo
+    // Cargar la informacion del portafolio
     const portfolio = await Portfolio.findById(req.params.id).lean()
     // Si es TRUE continuar con la condicion y si es false enviar a la ruta portafolios
-    if(portfolio._id != req.params.id) return res.redirect('/portafolios')
     if(req.files?.image) {
+        // ACTUALIZACION DE IMAGEN
+        // Validar que venga una imagen en el formulario
         if(!(req.files?.image)) return res.send("Se requiere una imagen")
+        // Cargar la nueva imagen
         await deleteImage(portfolio.image.public_id)
+        // Cargar la nueva imagen
         const imageUpload = await uploadImage(req.files.image.tempFilePath)
+        // Construir la data para actualizar en BDD
         const data ={
-            title:req.body.title || portfolio.name,
+            title:req.body.title || portfolio.name, // Se mantenga lo que esta en los inputs
             category: req.body.category || portfolio.category,
             description:req.body.description || portfolio.description,
             image : {
@@ -68,7 +73,9 @@ const updatePortafolio = async(req,res)=>{
             secure_url:imageUpload.secure_url
             }
         }
+        // Eliminar la imagen temporal 
         await fs.unlink(req.files.image.tempFilePath)
+        // Actualizar en BDD findByIdAndUpdate
         await Portfolio.findByIdAndUpdate(req.params.id,data)
     }
     else{

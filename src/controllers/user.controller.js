@@ -2,7 +2,7 @@
 const passport = require("passport")
 
 // Importar mi modelo
-const User = require('../models/User')
+const User = require('../models/user')
 
 //Presentar el formulario para el registro
 const renderRegisterForm =(req,res)=>{
@@ -24,6 +24,8 @@ const registerNewUser = async(req,res)=>{
     const newUser = await new User({name,email,password,confirmpassword})
     // Encriptacion de password
     newUser.password = await newUser.encrypPassword(password)
+    const token = newUser.crearToken()
+    sendMailToUser(email,token)
     newUser.save()
     res.redirect('/user/login')
 }
@@ -44,10 +46,26 @@ const logoutUser =(req,res)=>{
     });
 }
 
+// cONFIRMAR EL TOKEN
+const confirmEmail = async(req,res)=>{
+    if(!(req.params.token)) return res.send("Lo sentimos, no se puede validar la cuenta")
+    // CARGAR EL USUARIO EN BASE AL TOKEN ENVIADO
+    const userBDD = await User.findOne({token:req.params.token})
+    // SETEAR EL TOKEN A NULL
+    userBDD.token = null
+    // CAMBIAR EL confirmEmail A true
+    userBDD.confirmEmail=true
+    //  Guardar en BDD
+    await userBDD.save()
+    // Mensaje de respuesta
+    res.send('Token confirmado, ya puedes iniciar sesión');
+}
+
 module.exports={
     renderRegisterForm,
     registerNewUser,
     renderLoginForm,
     loginUser,
-    logoutUser
+    logoutUser,
+    confirmEmail
 }

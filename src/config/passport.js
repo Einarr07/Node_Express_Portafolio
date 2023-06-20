@@ -1,7 +1,7 @@
 // Importatcion de passport
 const passport = require('passport')
 // Imporatacion del modelo user
-const User = require('../models/User')
+const User = require('../models/user')
 // Definicion de la estrategia
 const LocalStrategy = require('passport-local').Strategy
 
@@ -18,6 +18,8 @@ passport.use(new LocalStrategy({
     const passwordUser = await userBDD.matchPassword(password)
     // Validacion del password del formulario vs el de la BDD
     if(!passwordUser) return done("Lo sentimos, los passwords no coinciden",false)
+    // Validacion de la confirmacion del mail
+    if(userBDD.confirmEmail===false) return done("Lo sentimos, debe verificar la cuenta en su correo electrónico",false)
     // Retornar el usuario
     return done(null,userBDD)
 }))
