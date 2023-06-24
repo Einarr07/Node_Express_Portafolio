@@ -4,6 +4,8 @@ const passport = require("passport")
 // Importar mi modelo
 const User = require('../models/user')
 
+const { sendMailToUser } = require("../config/nodemailer")
+
 //Presentar el formulario para el registro
 const renderRegisterForm =(req,res)=>{
     res.render('user/registerForm')
