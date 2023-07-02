@@ -1,11 +1,10 @@
-require('dotenv').config() //Este siempre debe ir primero para cargar la imagen
-const app = require('./server.js') //exportmaos de nuestro server
+require('dotenv').config() //Método para cargar las variables del archivo .env
+const app = require('./server.js')
+const connection = require('./database.js')
 
-const connection = require('./database.js') //exportamos nuestra BD
 
 
-connection() //Llamamos a nuestra funcion
-
-app.listen(app.get('port'),()=>{ //Llamamos a nuestra variable
+connection()
+app.listen(app.get('port'),()=>{
     console.log(`Server on port ${app.get('port')}`);
 })

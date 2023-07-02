@@ -1,5 +1,4 @@
 const {Schema, model} = require('mongoose')
-const { sendMailToUser } = require("../config/nodemailer")
 const bcrypt = require('bcryptjs')
 const userSchema = new Schema({
     name:{
@@ -21,14 +20,40 @@ const userSchema = new Schema({
     confirmEmail:{
         type:Boolean,
         default:false
+    },
+    image:{
+        public_id:String,
+        secure_url:String
+    },
+    names:{
+        type:String,
+        require:true
+    },
+    date :{
+        type:String, // String, si no funciona Date
+        require:true
+    },
+    location:{
+        type:String,
+        require:true
+    },
+    ocupation:{
+        type:String,
+        require:true
     }
 },{
-    timestamps:true //Cuando a sido creado y actulizado el documento
+    timestamps:true
 })
+
+// Método para crear un token 
+userSchema.methods.crearToken = function(){
+    return token = this.token = Math.random().toString(36).slice(2)
+}
+
 
 // Método para cifrar el password del usuario
 userSchema.methods.encrypPassword = async (password)=>{
-    const salt = await bcrypt.genSalt(10) //Se recomienda 10 (para ña emcroptacopm)
+    const salt = await bcrypt.genSalt(10)
     const passwordEncryp = await bcrypt.hash(password,salt)
     return passwordEncryp
 }
@@ -39,9 +64,5 @@ userSchema.methods.matchPassword = async function(password){
     return response
 }
 
-// Método para crear un token 
-userSchema.methods.crearToken = function(){
-    return token = this.token = Math.random().toString(36).slice(2)
-}
 
-module.exports = model('user',userSchema) //Nombre del modelo
+module.exports = model('user',userSchema)

@@ -1,37 +1,32 @@
-// Importatcion de passport
 const passport = require('passport')
-// Imporatacion del modelo user
-const User = require('../models/user')
-// Definicion de la estrategia
+const User = require('../models/User')
+
 const LocalStrategy = require('passport-local').Strategy
 
-// Configuracion de la estrategia
+
+
 passport.use(new LocalStrategy({
     usernameField:'email',
     passwordField:'password'
 },async(email,password,done)=>{
-    // Traer el usuario en base al email
+    //TRAER USUARIO EN BASE AL EMAIL
     const userBDD = await User.findOne({email})
-    // Validacion del usiario
+    //VALIDACION DEL USUARIO
     if(!userBDD) return done("Lo sentimos, el email no se encuentra registrado",false,)
-    // Validacion de contraseñas
+    //VALIDACION DE LAS CONTRASEÑAS
     const passwordUser = await userBDD.matchPassword(password)
-    // Validacion del password del formulario vs el de la BDD
+    //VALIDACION DEL PASSWORD DEL FORMULARIO VS EL DE LA BD
     if(!passwordUser) return done("Lo sentimos, los passwords no coinciden",false)
-    // Validacion de la confirmacion del mail
     if(userBDD.confirmEmail===false) return done("Lo sentimos, debe verificar la cuenta en su correo electrónico",false)
-    // Retornar el usuario
+    //retorno de lo que vera el usuario
     return done(null,userBDD)
 }))
-
-// Serializacion del usuario
+//SERIALIZACION DEL USUARIO
 passport.serializeUser((user,done)=>{
     done(null,user.id)
 })
-
-// Deserializacion del usuario
+//DESERIALIZACION DEL USUARIO
 passport.deserializeUser(async (id, done) => {
-    // Traer el usuario en base al id de la session
     const userDB  = await User.findById(id).exec();
     return done(null,userDB)
 });

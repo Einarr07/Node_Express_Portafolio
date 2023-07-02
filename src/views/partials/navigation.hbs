@@ -9,7 +9,7 @@
             <ul class="navbar-nav ms-auto">
                 {{#if user}}
                 <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/portafolios">Portfolio</a></li>
-                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#">{{user}}</a></li>
+                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/user/perfil/{{id}}">{{user}}</a></li>
                 <form action="/user/logout" method="POST" class="d-inline">
                     <button class="btn btn-danger btn-sm mt-2">Logout</button>
                 </form>

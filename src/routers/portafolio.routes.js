@@ -1,9 +1,8 @@
 const{Router} = require('express')
-
 const router = Router()
-
 const {isAuthenticated} = require('../helpers/validate-auth')
 
+//IMPORTAR MIS CONTROLADORES
 const { renderAllPortafolios,
         renderPortafolio,
         renderPortafolioForm,
@@ -11,18 +10,15 @@ const { renderAllPortafolios,
         renderEditPortafolioForm,
         updatePortafolio,
         deletePortafolio
-} = require('../controllers/portafolio.controller.js')
+    } = require('../controllers/portafolio.controller.js')
 
-// Crear rutas 
+//PROTEGER RUTAS
 router.get('/portafolio/add',isAuthenticated,renderPortafolioForm)
 router.post('/portafolio/add', isAuthenticated,createNewPortafolio)
-
 router.get('/portafolios',isAuthenticated,renderAllPortafolios)
 router.get('/portafolio/:id', isAuthenticated,renderPortafolio)
-    
 router.get('/portafolio/edit/:id', isAuthenticated,renderEditPortafolioForm)
 router.put('/portafolio/edit/:id', isAuthenticated,updatePortafolio)
-
 router.delete('/portafolio/delete/:id', isAuthenticated,deletePortafolio)
-
+//EXPORTAR LA RUTAS
 module.exports = router

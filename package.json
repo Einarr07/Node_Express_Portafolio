@@ -1,4 +1,11 @@
 {
+    "name": "node_portafolio-web",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "engines": {
+      "node": "^18.16.0 || ^12.22.0 || ^14.17.0 || >=16.0.0"
+    },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cloudinary": "^1.37.2",

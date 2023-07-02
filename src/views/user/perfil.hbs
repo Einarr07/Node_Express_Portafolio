@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Perfil de Usuario</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f2f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    #perfil {
+      max-width: 800px;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    h2 {
+      color: #333;
+    }
+
+    #foto-perfil img {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      justify-content: center;
+      margin: 30px 5px;
+    }
+
+    #informacion ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    #informacion ul li {
+      margin-bottom: 10px;
+    }
+
+    #editar-perfil {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    #editar-perfil button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="perfil">
+    <div id="foto-perfil">
+      {{#if USER.image}}
+      <img src="{{USER.image}}" alt="Foto de perfil" class="card-img-top" />
+      {{else}}
+      <img src="https://mdbcdn.b-cdn.net/img/new/standard/city/044.webp" alt="Foto de perfil por defecto" class="card-img-top" />
+      {{/if}}
+  </div>
+    <div id="informacion">
+      <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">INFORMACIÓN PERSONAL</h2>
+      <h3>{{USER.name}}</h3> 
+        <div class="divider-custom">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+            <div class="divider-custom-line"></div>
+        </div>
+        <h6 class="card-text">NOMBRE COMPLETO: {{USER.names}}</h6>
+        <h6 class="card-text">EMAIL: {{USER.email}}</h6>
+        <h6 class="card-text">FECHA DE NACIMIENTO: {{USER.date}}</h6>
+        <h6 class="card-text">UBICACIÓN: {{USER.location}}</h6>
+        <h6 class="card-text">OCUPACIÓN: {{USER.ocupation}}</h6>
+      </ul>
+    </div>
+    <div id="editar-perfil">
+      <a href="/user/editarPerfil/{{USER._id}}" class="nav-item mx-0 mx-lg-1">
+          <button class="nav-link py-3 px-0 px-lg-3 rounded">Editar Perfil</button>
+      </a>
+    </div>
+  </div>
+</body>
+</html>
